@@ -1,0 +1,6 @@
+C:\Users\varto\RiderProjects\practice_9\practice_9\bin\Debug\practice_9.exe
+C:\Users\varto\RiderProjects\practice_9\practice_9\bin\Debug\practice_9.pdb
+C:\Users\varto\RiderProjects\practice_9\practice_9\obj\Debug\practice_9.csprojAssemblyReference.cache
+C:\Users\varto\RiderProjects\practice_9\practice_9\obj\Debug\practice_9.csproj.CoreCompileInputs.cache
+C:\Users\varto\RiderProjects\practice_9\practice_9\obj\Debug\practice_9.exe
+C:\Users\varto\RiderProjects\practice_9\practice_9\obj\Debug\practice_9.pdb
