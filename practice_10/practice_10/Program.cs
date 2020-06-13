@@ -40,19 +40,6 @@ namespace practice_10
 
 
             Node result = Merge(root, root2);
-            // Process
-            //        1+10
-            //    2+20        3+30
-            //21+210    Null+310
-
-            // Result
-            //        11
-            //    22        33
-            //231        310
-            // Console.WriteLine($"\t{result.data}" +
-            //                   $"\n    {result.children[0].data}    {result.children[1].data}" +
-            //                   $"\n{result.children[0].children[0].data}    {result.children[1].children[0].data}");
-
 
             // Result
             //              1
@@ -106,22 +93,6 @@ namespace practice_10
                     tree1.children.Add(tree2.children[i]);
                 }
             }
-
-            // for (int i = 0; i < tree1.children.Count; i++)
-            // {
-            //     if (tree2.children.Count > i)
-            //     {
-            //         tree1.children[i] = Merge(tree1.children[i], tree2.children[i]);
-            //     }
-            // }
-            //
-            // if (tree1.children.Count < tree2.children.Count)
-            // {
-            //     for (int i = tree1.children.Count; i < tree2.children.Count; i++)
-            //     {
-            //         tree1.children.Add(tree2.children[i]);
-            //     }
-            // }
 
             return tree1;
         }

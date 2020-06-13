@@ -17,79 +17,23 @@ namespace practice_12
 2. Сортировка перемешиванием.
 11. Пирамидальная сортировка.");
 
-            int[] arrSortedUp = {1, 2, 3, 4, 5};
-            int[] arrSortedDown = {5, 4, 3, 2, 1,};
-            int[] arrSortedNone = {3, 1, 5, 2, 4};
+            int[] arrSortedUp = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+            int[] arrSortedDown = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
+            int[] arrSortedNone = {3, 10, 6, 1, 8, 5, 2, 9, 4, 7};
 
-            (int, int) test1 = ShakerSort(arrSortedUp);
-            (int, int) test2 = ShakerSort(arrSortedDown);
-            (int, int) test3 = ShakerSort(arrSortedNone);
+            ShakerSort(arrSortedUp);
+            ShakerSort(arrSortedDown);
+            ShakerSort(arrSortedNone);
 
 
-            (int, int) test4 = PyramidSort(arrSortedUp, arrSortedUp.Length);
-            (int, int) test5 = PyramidSort(arrSortedDown, arrSortedDown.Length);
-            (int, int) test6 = PyramidSort(arrSortedNone, arrSortedNone.Length);
+            PyramidalSorting(arrSortedUp);
+            PyramidalSorting(arrSortedDown);
+            PyramidalSorting(arrSortedNone);
 
-            Console.WriteLine("  UP   DOWN   NONE");
-
-            ShakerSort2(arrSortedUp);
-            ShakerSort2(arrSortedDown);
-
-            ShakerSort2(arrSortedNone);
-
-            Console.WriteLine();
-
-            Console.Write(test1);
-            Console.Write(test2);
-            Console.Write(test3);
-            Console.WriteLine();
-
-            Console.Write(test4);
-            Console.Write(test5);
-            Console.Write(test6);
             Console.WriteLine();
         }
 
-        /* Поменять элементы местами */
-        static void Swap(int[] myint, int i, int j)
-        {
-            int glass = myint[i];
-            myint[i] = myint[j];
-            myint[j] = glass;
-        }
-
-        /* Шейкер-сортировка */
-        static void ShakerSort2(int[] myint)
-        {
-            int left = 0,
-                right = myint.Length - 1,
-                count = 0;
-
-            while (left < right)
-            {
-                for (int i = left; i < right; i++)
-                {
-                    count++;
-                    if (myint[i] > myint[i + 1])
-                        Swap(myint, i, i + 1);
-                }
-
-                right--;
-
-                for (int i = right; i > left; i--)
-                {
-                    count++;
-                    if (myint[i - 1] > myint[i])
-                        Swap(myint, i - 1, i);
-                }
-
-                left++;
-            }
-
-            Console.WriteLine("\nКоличество сравнений = {0}", count.ToString());
-        }
-
-        public static (int, int) ShakerSort(int[] name)
+        public static void ShakerSort(int[] name)
         {
             int countIf = 0;
             int countChange = 0;
@@ -116,6 +60,7 @@ namespace practice_12
 
                 right = b; //Сохраним последнюю перестановку как границу
                 if (left >= right) break; //Если границы сошлись выходим
+                countIf++;
                 for (int i = right; i > left; i--) //Справа налево...
                 {
                     if (name[i - 1] > name[i])
@@ -132,67 +77,107 @@ namespace practice_12
                 }
 
                 left = b; //Сохраним последнюю перестановку как границу
-            }
 
-            return (countIf, countChange);
-        }
-
-        static int add2pyramid(int[] arr, int i, int N)
-        {
-            int imax;
-            int buf;
-            if ((2 * i + 2) < N)
-            {
-                if (arr[2 * i + 1] < arr[2 * i + 2]) imax = 2 * i + 2;
-                else imax = 2 * i + 1;
-            }
-            else imax = 2 * i + 1;
-
-            if (imax >= N) return i;
-            if (arr[i] < arr[imax])
-            {
-                buf = arr[i];
-                arr[i] = arr[imax];
-                arr[imax] = buf;
-                if (imax < N / 2) i = imax;
-            }
-
-            return i;
-        }
-
-        public static (int, int) PyramidSort(int[] arr, int len)
-        {
-            int countIf = 0;
-            int countChange = 0;
-
-            //step 1: building the pyramid
-            for (int i = len / 2 - 1; i >= 0; --i)
-            {
-                long prev_i = i;
-                i = add2pyramid(arr, i, len);
-                if (prev_i != i) ++i;
-                countChange++;
                 countIf++;
             }
 
-            //step 2: sorting
-            int buf;
-            for (int k = len - 1; k > 0; --k)
+            Console.WriteLine("Массив, отсортированный с помощью шейкер-сортировки:");
+            //WriteMas(mas);
+            Console.WriteLine("Количество сравнений: " + countIf);
+            Console.WriteLine("Количество пересылок: " + countChange);
+            Console.WriteLine();
+        }
+
+        static int[] MakeSortedTree(int[] mas, int maxElem, int elem, ref int compare, ref int changes)
+        {
+            //функция, строящая сортировочное дерево
+
+            int maxDescendant = elem; //индекс максимального из двух потомков данного элемента
+
+            int LeftDescendant = elem * 2 + 1; //индекс левого потомка данного элемента
+
+            int RightDescendant = elem * 2 + 2; //индекс правого потомка данного элемента
+
+            while (LeftDescendant < maxElem) //пока не дойдем до границы неотсортированной части массива
             {
-                buf = arr[0];
-                arr[0] = arr[k];
-                arr[k] = buf;
-                int i = 0, prev_i = -1;
-                while (i != prev_i)
+                compare++;
+                if (RightDescendant >= maxElem
+                ) //если мы дошли до последнего элемента в неотсортированной части и правый потомок уже в отсортированной части
                 {
-                    prev_i = i;
-                    i = add2pyramid(arr, i, k);
-                    countChange++;
-                    countIf++;
+                    maxDescendant = LeftDescendant;
                 }
+                else //если мы еще не дошли до конца неотсортированной части и правый потомок тоже находится в ней
+                if (mas[LeftDescendant] > mas[RightDescendant]
+                ) //находим максимальный элемент и  записываем его индекс в maxDescendant
+                {
+                    maxDescendant = LeftDescendant;
+                    compare++;
+                }
+                else
+                {
+                    maxDescendant = RightDescendant;
+                    compare++;
+                }
+
+                compare++;
+                if (mas[maxDescendant] <= mas[elem]
+                ) //если потомок не больше данного элемента, то заканчивам построение сортировочного дерева
+                {
+                    compare++;
+                    break;
+                }
+                else //если потомок больше данного элемента, то меняем их местами
+                {
+                    int k = mas[elem]; //вспомогательна переменная
+                    mas[elem] = mas[maxDescendant];
+                    mas[maxDescendant] = k;
+                    changes++;
+                    elem = maxDescendant; //данный элемент меняет индекс
+                    LeftDescendant = elem * 2 + 1; //индекс левого потомка данного элемента
+                    RightDescendant = elem * 2 + 2; //индекс правого потомка данного элемента
+                }
+
+                compare++;
             }
 
-            return (countIf, countChange);
+            compare++;
+            return mas;
+        }
+
+        static void PyramidalSorting(int[] mas)
+        {
+            //функция, в которой выполняется два этапа пирамидальной сортировки
+            int changes = 0;
+            int compare = 0;
+            //первый этап: составляем пирамиду, прогоняя по не ней элементы, имеющие потомков, начиная с самого нижнего
+
+            for (int i = mas.Length / 2 - 1; i >= 0; i--)
+            {
+                compare++;
+                mas = MakeSortedTree(mas, mas.Length, i, ref compare,
+                    ref changes); //нижней границы пока нет, так как массив еще не начали сортировать               
+            }
+
+            compare++;
+            //второй этап: меняем местами первый и последний в неотсортированной части, затем прогоняем новый верхний элемент, составляя пирамиду
+            for (int i = mas.Length - 1; i >= 1; i--)
+            {
+                compare++;
+                //меняем местами верхний и нижний элементы неотсортированной части (последний элемент - новый край отсортированной части)
+                int k = mas[i];
+                mas[i] = mas[0];
+                mas[0] = k;
+                changes++;
+                //составляем пирамиду, передвинув нижний край на один влево. Прогоняем по ней верхний элемент
+                mas = MakeSortedTree(mas, i, 0, ref compare, ref changes);
+            }
+
+            compare++;
+            Console.WriteLine("Массив, отсортированный с помощью пирамидальной сортировки:");
+            //WriteMas(mas);
+            Console.WriteLine("Количество сравнений: " + compare);
+            Console.WriteLine("Количество пересылок: " + changes);
+            Console.WriteLine();
         }
     }
 }

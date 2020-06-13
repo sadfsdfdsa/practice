@@ -6,29 +6,54 @@ namespace practice_11
     {
         public static void Main(string[] args)
         {
-            int[,] keys = new int[10, 10]
-            {
-                {0, 1, 1, 0, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 0, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-            };
-
-            string value = "input";
+            int[,] keys = new int[10, 10];
             
-            Console.WriteLine(value);
+            Console.Write("Введите строку для шифровки: ");
+            string value = Console.ReadLine();
+            if (value.Length>100)
+            {
+                Console.WriteLine($"Длина строки больше 100 символов, все символы, с 1 по {value.Length-100} будут утеряны.");
+            }
+
+            Console.WriteLine(
+                "Введите матрицу-ключ 10х10 (ввод построчно с разделением символов пробелами) из единиц и нулей: ");
+            Console.WriteLine("M | 1 2 3 4 5 6 7 8 9 10");
+            Console.WriteLine("------------------------");
+            for (int i = 0; i < 10; i++)
+            {
+                Console.Write(i + 1 + " | ");
+                string[] tmp = Console.ReadLine().Split(' ');
+                for (int j = 0; j < 10; j++)
+                {
+                    try
+                    {
+                        int tmp_value = int.Parse(tmp[j]);
+                        keys[i, j] = tmp_value;
+                        if (tmp_value != 0 && tmp_value != 1)
+                        {
+                            Console.WriteLine("Ошибочный ввод, введите строку заново.");
+                            i--;
+                            break;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("Ошибочный ввод, введите строку заново.");
+                        i--;
+                        break;
+                    }
+                }
+            }
+
 
             char[,] chars = Encrypt(keys, value);
+            Console.WriteLine("Зашифрованная матрица: ");
             ShowMatrix(chars);
 
             string result = Decrypt(keys, chars);
             Console.Write(result);
+            
+            Console.ReadLine();
         }
 
 
@@ -67,11 +92,6 @@ namespace practice_11
             int[,] tmp = keys;
             for (int i = 0; i < 4; i++)
             {
-                for (int p = i; p < 4; p++)
-                {
-                    tmp = Turn(tmp);
-                }
-
                 for (int k = 0; k < tmp.GetLength(1); k++)
                 {
                     for (int j = 0; j < tmp.GetLength(0); j++)
@@ -82,6 +102,8 @@ namespace practice_11
                         }
                     }
                 }
+
+                tmp = Turn(tmp);
             }
 
             return value;

@@ -13,6 +13,10 @@ namespace practice_8
         public static List<int> ArtPoints;
         public static int time;
 
+        //Function to get a random number 
+        public static readonly Random random = new Random();
+        public static readonly object syncLock = new object();
+
         public static void Main(string[] args)
         {
             // Console.WriteLine(
@@ -37,8 +41,13 @@ namespace practice_8
             Console.WriteLine("Введите матрицу: ");
             for (int i = 0; i < m; i++)
             {
-                string[] tmpString = Console.ReadLine().Split(' ');
-
+                // string[] tmpString = Console.ReadLine().Split(' ');
+                string[] tmpString = Generator(n);
+                foreach (string item in tmpString)
+                {
+                    Console.Write(item+" ");
+                }
+                Console.Write("\n");
                 int a = Array.IndexOf(tmpString, "1");
                 int b = Array.LastIndexOf(tmpString, "1");
 
@@ -57,7 +66,7 @@ namespace practice_8
                     dfs(i);
                 }
 
-            if (ArtPoints.Count>0)
+            if (ArtPoints.Count > 0)
             {
                 Console.Write("Точки сочленения под номерами: ");
                 foreach (int point in ArtPoints)
@@ -72,6 +81,36 @@ namespace practice_8
 
 
             Console.ReadLine();
+        }
+
+        public static string[] Generator(int n)
+        {
+            string[] tmp = new string[n];
+            int a, b;
+            lock (syncLock)
+            {
+                a = random.Next(0, n);
+            }
+
+            lock (syncLock)
+            {
+                do
+                {
+                    b = random.Next(0, n);
+                } while (b == a);
+            }
+
+            tmp[a] = "1";
+            tmp[b] = "1";
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                if (tmp[i] != "1")
+                {
+                    tmp[i] = "0";
+                }
+            }
+
+            return tmp;
         }
 
 
