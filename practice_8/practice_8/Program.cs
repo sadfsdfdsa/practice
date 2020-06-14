@@ -19,8 +19,8 @@ namespace practice_8
 
         public static void Main(string[] args)
         {
-            // Console.WriteLine(
-            //     "14. Граф задан матрицей инциденций. Найти все его точки сочленения.");
+            Console.WriteLine(
+                "14. Граф задан матрицей инциденций. Найти все его точки сочленения.");
 
             int n = ReadInteger("Введите количество вершин ", 2);
             int m = ReadInteger("Введите количество ребер (строк в матрице инцеденций ", 1);
