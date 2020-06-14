@@ -19,6 +19,7 @@ namespace practice_9
             value = ReadInteger("Введите значение, которое вы хотите удалить  ", 1);
             Console.WriteLine("Удаление произошло: " + Delete(value, ref lst));
             ShowList(lst);
+            Console.ReadLine();
         }
 
         public static void ShowList(Point point)

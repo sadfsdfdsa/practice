@@ -30,7 +30,7 @@ namespace practice_12
             PyramidalSorting(arrSortedDown);
             PyramidalSorting(arrSortedNone);
 
-            Console.WriteLine();
+            Console.ReadLine();
         }
 
         public static void ShakerSort(int[] name)

@@ -48,6 +48,7 @@ namespace practice_10
             Console.WriteLine($"\t    {result.data}" +
                               $"\n    {result.children[0].data}      {result.children[1].data}  \t  {result.children[2].data}" +
                               $"\n{result.children[0].children[0].data}   {result.children[0].children[1].data} \t   {result.children[2].children[0].data}");
+            Console.ReadLine();
         }
 
         public static Node Merge(Node tree1, Node tree2)
